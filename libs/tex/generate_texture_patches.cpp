@@ -456,7 +456,7 @@ generate_texture_patches(UniGraph const & graph, mve::TriangleMesh::ConstPtr mes
     std::vector<TextureView> * texture_views, Settings const & settings,
     std::vector<std::vector<VertexProjectionInfo> > * vertex_projection_infos,
     std::vector<TexturePatch::Ptr> * texture_patches,
-    std::string const & unseen_faces_file = "") {
+    std::string const & unseen_faces_file) {
 
     util::WallTimer timer;
 
