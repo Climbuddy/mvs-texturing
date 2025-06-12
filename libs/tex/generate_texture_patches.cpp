@@ -455,7 +455,8 @@ generate_texture_patches(UniGraph const & graph, mve::TriangleMesh::ConstPtr mes
     mve::MeshInfo const & mesh_info,
     std::vector<TextureView> * texture_views, Settings const & settings,
     std::vector<std::vector<VertexProjectionInfo> > * vertex_projection_infos,
-    std::vector<TexturePatch::Ptr> * texture_patches) {
+    std::vector<TexturePatch::Ptr> * texture_patches,
+    std::string const & unseen_faces_file = "") {
 
     util::WallTimer timer;
 
@@ -560,6 +561,25 @@ generate_texture_patches(UniGraph const & graph, mve::TriangleMesh::ConstPtr mes
                     unseen_faces.insert(unseen_faces.end(),
                         subgraph.begin(), subgraph.end());
                 }
+            }
+        }
+
+        // Export unseen faces to file if requested
+        if (!unseen_faces_file.empty() && !unseen_faces.empty()) {
+            std::ofstream out_file(unseen_faces_file);
+            if (out_file.is_open()) {
+                for (std::size_t i = 0; i < unseen_faces.size(); ++i) {
+                    out_file << unseen_faces[i];
+                    if (i < unseen_faces.size() - 1) {
+                        out_file << std::endl;
+                    }
+                }
+                out_file.close();
+                std::cout << "\tExported " << unseen_faces.size() 
+                         << " unseen face IDs to " << unseen_faces_file << std::endl;
+            } else {
+                std::cerr << "Warning: Could not open file " << unseen_faces_file 
+                         << " for writing unseen faces" << std::endl;
             }
         }
 

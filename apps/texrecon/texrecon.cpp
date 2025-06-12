@@ -164,8 +164,9 @@ int main(int argc, char **argv) {
         tex::TexturePatches texture_patches;
         tex::VertexProjectionInfos vertex_projection_infos;
         std::cout << "Generating texture patches:" << std::endl;
+        std::string unseen_faces_file = conf.out_prefix + "_unseen_faces.txt";
         tex::generate_texture_patches(graph, mesh, mesh_info, &texture_views,
-            conf.settings, &vertex_projection_infos, &texture_patches);
+            conf.settings, &vertex_projection_infos, &texture_patches, unseen_faces_file);
 
         if (conf.settings.global_seam_leveling) {
             std::cout << "Running global seam leveling:" << std::endl;
